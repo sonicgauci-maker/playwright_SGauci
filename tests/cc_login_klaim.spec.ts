@@ -14,5 +14,5 @@ test('Login Klaim', async ({ page }) => {
   await expect(page).not.toHaveURL(/\/auth\/login/);
 
   // Browser tetap terbuka + Inspector aktif
- // await page.pause();
+  await page.pause();
 });

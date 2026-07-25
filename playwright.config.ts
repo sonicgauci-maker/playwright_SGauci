@@ -1,7 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 import dotenv from 'dotenv';
 
-dotenv.config();
+// Load .env global — override agar tidak di-skip oleh tool external
+dotenv.config({ path: path.resolve(__dirname, '.env'), override: true });
 
 export default defineConfig({
   testDir: 'tests',

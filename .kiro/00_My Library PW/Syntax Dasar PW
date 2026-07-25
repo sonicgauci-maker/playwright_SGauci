@@ -1,0 +1,39 @@
+[01]Cara Capture - codegen ****#######
+npx playwright codegen [/URL] -0 [folder/filename.spec.ts]
+Cth:
+npx playwright codegen https://claim.dev.inhealth.co.id -o tests/testauto.spec.ts
+
+[02] Cara Running ****#######
+# Jalankan semua test
+npx playwright test
+
+# Jalankan file tertentu
+npx playwright test tests/01_Admin_Reimbursement.spec.ts
+
+# Jalankan dengan browser terlihat (headed)
+npx playwright test tests/01_Admin_Reimbursement.spec.ts --headed
+
+# Jalankan dengan browser tertentu
+npx playwright test --project=chromium
+npx playwright test --project=firefox
+npx playwright test --project=webkit
+
+# Jalankan dengan debug (browser tetap terbuka + Inspector)
+npx playwright test tests/01_Admin_Reimbursement.spec.ts --debug
+
+# Jalankan test berdasarkan nama
+npx playwright test -g "Login Klaim"
+
+# Jalankan UI Mode (visual test runner)
+npx playwright test --ui
+
+# Code Generator
+npx playwright codegen https://claim.dev.inhealth.co.id/auth/login
+
+# Lihat HTML report
+npx playwright show-report
+
+# Kombinasi: file + headed + browser + project
+npx playwright test tests/01_Admin_Reimbursement.spec.ts --headed --project=chromium
+
+[03] loremipsum
