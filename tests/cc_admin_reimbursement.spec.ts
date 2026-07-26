@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { login } from './commands/login';
+import { login } from './commands/loginklaim';
 import path from 'path';
 
 // ═══════════════════════════════════════════════════════════════

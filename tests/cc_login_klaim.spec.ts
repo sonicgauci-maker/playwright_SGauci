@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { login } from './commands/login';
+import { login } from './commands/loginklaim';
 
 const username = 'tester.admin';
 const password = process.env.PASSWORD1 || '';
