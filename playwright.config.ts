@@ -12,14 +12,18 @@ export default defineConfig({
   retries: 0,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    headless: true,
+    headless: false,
     actionTimeout: 15000,
     navigationTimeout: 30000,
-    viewport: { width: 1280, height: 720 },
+    viewport: { width: 1540, height: 1450 },
     ignoreHTTPSErrors: true,
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    trace: 'on-first-retry'
+    trace: 'on-first-retry',
+    launchOptions: {
+      args: ['--force-device-scale-factor=2.0'], // Zoom out 90% global
+      slowMo: 0, // delay 1000ms setiap action (global)
+    },
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

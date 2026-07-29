@@ -1,5 +1,5 @@
-import { test, expect } from '@playwright/test';
-import { login } from './commands/loginklaim';
+import { test, expect } from '../fixtures/base';
+import { login } from '../commands/loginklaim';
 import path from 'path';
 
 // ═══════════════════════════════════════════════════════════════
@@ -11,37 +11,37 @@ const DATA = {
   password: process.env.PASSWORD1 || '',
 
   // Peserta
-  nomorPeserta: '1101703768029',
+  nomorPeserta: '1001736785529',
   phone: '089662284227',
-  email: 'syaiful.gauci@inhealth.co.id',
+  email: 'indra.kurniawan@inhealth.co.id',
 
-  // Tanggal
+  // Tanggal Receive Date & Admission Date
   receiveDate: new Date().toISOString().split('T')[0], // default: hari ini
-  admissionDate: '2026-07-17', // ubah sesuai kebutuhan
-
+  admissionDate: '2026-07-28', // Tanggal Pelayanan /INDATE
   // Klaim
-  icd10Code: 'Z00.0',
+  icd10Code: 'A00.0',
   providerName: 'PKM MEURAXA',
   doctorName: 'dokter klaim',
   claimSubBenefit: '22,5000',
-  remark: 'Tester-SGC',
+  remark: 'Tester-PW-SGC',
   benefitType: 'RJTL - Rawat Jalan Tingkat Lanjut',
+  planName: 'Rawat Jalan',  // Nama plan yang dipilih di View Plan📌
 
   // Upload — taruh file di folder tests/fixtures/
-  uploadFile: path.join(__dirname, 'fixtures', 'DummyPDF.pdf'),
+  uploadFile: path.join(__dirname, '..', 'fixtures', 'DummyPDF.pdf'),
 };
 
 // ═══════════════════════════════════════════════════════════════
 // TESTS
 // ═══════════════════════════════════════════════════════════════
-test.describe('Admin Reimbursement', () => {
+test.describe('Klaim Reimbursement Reguler', () => {
   test.setTimeout(180000);
 
   test.beforeEach(async ({ page }) => {
     await login(page, DATA.username, DATA.password);
   });
 
-  test('should create new reimbursement claim', async ({ page }) => {
+  test('Input Klaim Reimbursement', async ({ page }) => {
     // ── Navigasi ke Claim Reimbursement ──
     await page.getByText('Reimbursement').click();
     await page.getByText('Claim Reimbursement').click();
@@ -76,28 +76,31 @@ test.describe('Admin Reimbursement', () => {
     await page.locator('textarea[name="Remark"]').fill(DATA.remark);
 
     // ── Benefit Type & Admission Date ──
-    await page.locator('.css-1b8pb2h-XJ').first().click();
+    // Klik dropdown TKP Type (react-select)
+    const tkpContainer = page.locator(':has(> :text("TKP Type"))').last();
+    await tkpContainer.getByRole('combobox').click();
     await page.getByText(DATA.benefitType, { exact: true }).click();
     await page.locator('input[name="AdmissionDate"]').fill(DATA.admissionDate);
 
     // ── View Plan ──
     await page.getByRole('button', { name: 'View Plan' }).click();
-    await page.locator('tr:nth-child(4) > td > .btn').click();
+    // Klik button select di row plan yang sesuai
+    await page.getByRole('row', { name: DATA.planName }).getByRole('button').click();
 
     // ── Checklist Document ──
     await page.getByRole('checkbox').check();
     await page.getByRole('button', { name: 'Checklist Document' }).click();
-    await page.getByRole('row', { name: 'Y Kuitansi' }).locator('#defaultCheckbox').check();
-    await page.locator('tr:nth-child(18) > td > .fs--1 > #defaultCheckbox').check();
+    // Centang document "Kuitansi" di modal checklist
+    await page.getByRole('row', { name: /Kuitansi/ }).getByRole('checkbox').check();
     await page.getByRole('button', { name: 'save', exact: true }).click();
 
     // ── Upload Document ──
     await page.getByLabel('Choose File').setInputFiles(DATA.uploadFile);
-    await page.getByRole('button', { name: 'Save' }).click();
+    await page.getByRole('button', { name: 'Save', exact: true }).click();
 
     // ── Submit ──
-    await page.getByRole('button', { name: 'Save' }).click();
-    await page.getByRole('button', { name: 'OK' }).click();
+    // await page.getByRole('button', { name: 'Submit' }).click();
+    // await page.getByRole('button', { name: 'Submit' }).click();
 
     // Browser tetap terbuka
     await page.pause();

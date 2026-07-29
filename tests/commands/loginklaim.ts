@@ -6,21 +6,13 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, '../../.env'), override: true });
 
 const LOGIN_URL = 'http://claim.dev.inhealth.co.id';
-const FALLBACK_URL = 'https://development.inhealth.co.id/new-micare-claim-ui/auth/login';
 
 /**
  * Login ke Claim Verification System
- * Fallback otomatis jika URL utama tidak bisa diakses
  */
 export async function login(page: Page, username: string, password: string) {
-  // Buka halaman login — coba URL utama dulu, fallback jika gagal
-  try {
-    await page.goto(LOGIN_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
-  } catch {
-    console.log('Primary URL gagal, pindah ke fallback...');
-    await page.goto('about:blank');
-    await page.goto(FALLBACK_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
-  }
+  // Buka halaman login
+  await page.goto(LOGIN_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
   // Tunggu form login muncul (cek kedua kemungkinan locator)
   const usernameField = page.getByRole('textbox', { name: 'Jhon Doe' });
@@ -45,10 +37,20 @@ export async function login(page: Page, username: string, password: string) {
   // Klik Login
   await page.getByRole('button', { name: 'Login', exact: true }).click();
 
-  // Handle modal popup (jika muncul — skip jika tidak ada)
+  // Handle modal popup (jika muncul — tunggu idle lalu close)
   const closeModal = page.getByLabel('Close modal');
-  if (await closeModal.isVisible({ timeout: 5000 }).catch(() => false)) {
+  try {
+    await closeModal.waitFor({ state: 'visible', timeout: 5000 });
+    await page.waitForLoadState('networkidle');
     await closeModal.click();
-    await page.getByRole('button', { name: 'OK' }).click();
+
+    // Handle pop-up konfirmasi (jika muncul)
+    const okButton = page.getByRole('button', { name: 'OK' });
+    await okButton.waitFor({ state: 'visible', timeout: 5000 });
+    await page.waitForLoadState('networkidle');
+    await okButton.click();
+    await okButton.waitFor({ state: 'hidden', timeout: 5000 });
+  } catch {
+    // Modal tidak muncul — skip
   }
 }

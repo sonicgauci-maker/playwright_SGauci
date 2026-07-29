@@ -1,0 +1,32 @@
+import { test, expect } from './fixtures/base';
+import { login } from './commands/loginklaim';
+
+const username = 'tester.admin';
+const password = process.env.PASSWORD1 || '';
+
+test('Login Klaim', async ({ page }) => {
+  test.setTimeout(180000);
+
+  // Panggil command login
+  await login(page, username, password);
+
+  // Verifikasi login berhasil
+  await expect(page).not.toHaveURL(/\/auth\/login/);
+
+  // Close Modal — tunggu sampai modal benar-benar idle & visible
+  const closeModalBtn = page.getByLabel('Close modal');
+  await closeModalBtn.waitFor({ state: 'visible' });
+  await page.waitForLoadState('networkidle');
+  await closeModalBtn.click();
+  await closeModalBtn.waitFor({ state: 'hidden' });
+
+  // Close Pop Up Enable Notification — tunggu popup idle
+  const okBtn = page.getByRole('button', { name: 'OK' });
+  await okBtn.waitFor({ state: 'visible' });
+  await page.waitForLoadState('networkidle');
+  await okBtn.click();
+  await okBtn.waitFor({ state: 'hidden' });
+
+  // Browser tetap terbuka + Inspector aktif
+  await page.pause();
+});
