@@ -1,7 +1,0 @@
-.env
-node_modules/
-playwright-report/
-playwright-report.json
-playwright-report.zip
-coverage/
-dist/
