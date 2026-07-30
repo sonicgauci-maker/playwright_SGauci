@@ -15,18 +15,23 @@ export default defineConfig({
     headless: false,
     actionTimeout: 15000,
     navigationTimeout: 30000,
-    viewport: { width: 1540, height: 1450 },
+    viewport: { width: 1440, height: 900 },
     ignoreHTTPSErrors: true,
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
     launchOptions: {
-      args: ['--force-device-scale-factor=2.0'], // Zoom out 90% global
+      args: [], // tanpa fullscreen
       slowMo: 0, // delay 1000ms setiap action (global)
     },
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    {
+      name: 'chromium',
+      use: {
+        channel: 'chromium',
+      },
+    },
     //{ name: 'firefox', use: { ...devices['Desktop Firefox'] } },
     //{ name: 'webkit', use: { ...devices['Desktop Safari'] } }
   ]

@@ -11,7 +11,7 @@ const DATA = {
   password: process.env.PASSWORD1 || '',
 
   // Peserta
-  nomorPeserta: '1001736785529',
+  nomorPeserta: '1001736481465',
   phone: '089662284227',
   email: 'indra.kurniawan@inhealth.co.id',
 
@@ -22,7 +22,7 @@ const DATA = {
   icd10Code: 'A00.0',
   providerName: 'PKM MEURAXA',
   doctorName: 'dokter klaim',
-  claimSubBenefit: '22,5000',
+  claimSubBenefit: '55000',
   remark: 'Tester-PW-SGC',
   benefitType: 'RJTL - Rawat Jalan Tingkat Lanjut',
   planName: 'Rawat Jalan',  // Nama plan yang dipilih di View Plan📌
@@ -95,7 +95,7 @@ test.describe('Klaim Reimbursement Reguler', () => {
     await page.getByRole('button', { name: 'save', exact: true }).click();
 
     // ── Upload Document ──
-    await page.getByLabel('Choose File').setInputFiles(DATA.uploadFile);
+    await page.getByLabel('Choose File').first().setInputFiles(DATA.uploadFile);
     await page.getByRole('button', { name: 'Save', exact: true }).click();
 
     // ── Submit ──
