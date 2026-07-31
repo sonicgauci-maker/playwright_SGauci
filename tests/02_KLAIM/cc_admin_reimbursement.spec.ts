@@ -7,11 +7,11 @@ import path from 'path';
 // ═══════════════════════════════════════════════════════════════
 const DATA = {
   // Credentials
-  username: 'tester.admin',
-  password: process.env.PASSWORD1 || '',
+  username: 'qa.claim.admin',
+  password: process.env.PASSWORD2 || '',
 
   // Peserta
-  nomorPeserta: '1001736481465',
+  nomorPeserta: '1001736783235',
   phone: '089662284227',
   email: 'indra.kurniawan@inhealth.co.id',
 
@@ -20,12 +20,12 @@ const DATA = {
   admissionDate: '2026-07-28', // Tanggal Pelayanan /INDATE
   // Klaim
   icd10Code: 'A00.0',
-  providerName: 'PKM MEURAXA',
+  providerName: 'KLINIK KASIH IBU DENPASAR',
   doctorName: 'dokter klaim',
   claimSubBenefit: '55000',
   remark: 'Tester-PW-SGC',
   benefitType: 'RJTL - Rawat Jalan Tingkat Lanjut',
-  planName: 'Rawat Jalan',  // Nama plan yang dipilih di View Plan📌
+  planName: 'Rawat Inap',  // Nama plan yang dipilih di View Plan📌
 
   // Upload — taruh file di folder tests/fixtures/
   uploadFile: path.join(__dirname, '..', 'fixtures', 'DummyPDF.pdf'),
