@@ -1,0 +1,23 @@
+as a proffesional QA
+
+Dari deskripsi berikut:
+<Desccription>
+
+Buatkan dalam bentuk file excel dengan ketentuan sebagai berikut:
+SIT Row Format
+Number id with format: TC-0xx
+Test Scenario
+Test Data
+Pre Condition
+Test Case
+Type
+Test Case Step
+Expected Result
+Actual Result
+Status
+Priority
+Notes
+Attachment with format: Attachment TC-0xx
+
+
+termasuk case positive dan negative

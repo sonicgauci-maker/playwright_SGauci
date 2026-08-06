@@ -1,0 +1,9 @@
+Dear Teams,
+Terlampir Doc SIT [--Nama Task JIRA--] sebagai berikut:
+
+Doc SIT [NM-1442] Monitoring Pipeline Automation Process
+
+Note:
+Mohon infonya jika ada koreksi atau tambahan
+
+Untuk yang namanya ke tag- minta tolong di sign yah, terima kasih.

@@ -10,6 +10,12 @@ npx playwright test
 # Jalankan file tertentu
 npx playwright test tests/01_Admin_Reimbursement.spec.ts
 
+# Jalankan file tertentu di dalam folder
+npx playwright test "Nama Folder/Nama File" <<<--- nama file tidak perlu extension
+
+Contoh:
+npx playwright test "Others/catering"
+
 # Jalankan dengan browser terlihat (headed)
 npx playwright test tests/01_Admin_Reimbursement.spec.ts --headed
 

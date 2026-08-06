@@ -11,13 +11,13 @@ const DATA = {
   password: process.env.PASSWORD2 || '',
 
   // Peserta
-  nomorPeserta: '1001736783235',
+  nomorPeserta: '1001736793293',
   phone: '089662284227',
   email: 'indra.kurniawan@inhealth.co.id',
 
   // Tanggal Receive Date & Admission Date
   receiveDate: new Date().toISOString().split('T')[0], // default: hari ini
-  admissionDate: '2026-07-28', // Tanggal Pelayanan /INDATE
+  admissionDate: '2026-07-25', // Tanggal Pelayanan /INDATE
   // Klaim
   icd10Code: 'A00.0',
   providerName: 'KLINIK KASIH IBU DENPASAR',

@@ -28,6 +28,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      timeout:5000,
       use: {
         channel: 'chromium',
       },
