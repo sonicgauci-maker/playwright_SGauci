@@ -20,9 +20,10 @@ export default defineConfig({
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
+    permissions: ['notifications', 'geolocation'],
     launchOptions: {
-      args: [], // tanpa fullscreen
-      slowMo: 0, // delay 1000ms setiap action (global)
+      args: ['--disable-features=DialMediaRouteProvider'], // Auto-dismiss network permission dialog
+      slowMo: 0,
     },
   },
   projects: [

@@ -9,20 +9,20 @@ test.use({ actionTimeout: 15000, launchOptions: { slowMo: 1000 } });
 // ═══════════════════════════════════════════════════════════════
 const DATA = {
   // Credentials
-  username: 'rs.banyumanik',
+  username: process.env.USERNAME_PP || '',
   password: process.env.PASSWORD3 || '',
 
   // Peserta
-  nomorPeserta: '1101733464183',
+  nomorPeserta: '1101733464183', // 📌
 
   // Admission
   jenisRawat: 'RAWAT JALAN',   // TKP (Tingkat Pelayanan)
-  manfaat: 'RAWAT JALAN',
-  subManfaat: 'AKUPUNTUR',
+  manfaat: 'RAWAT JALAN', // Plan 📌
+  subManfaat: 'AKUPUNTUR', // Pilih Poli 📌
   keterangan: 'Test By PW-SGC',
 
   // Discharge
-  icd10: 'A00.0',
+  icd10: 'Z00.0', // 📌
   kodeProsedur: '00.01',
   catatan: 'Test By PW-SGC',
   biayaRJ001: '5,0000',

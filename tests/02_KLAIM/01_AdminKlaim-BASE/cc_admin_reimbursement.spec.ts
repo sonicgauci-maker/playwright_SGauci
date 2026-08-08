@@ -1,5 +1,5 @@
-import { test, expect } from '../fixtures/base';
-import { login } from '../commands/loginklaim';
+import { test, expect } from '../../fixtures/base';
+import { login } from '../../commands/loginklaim';
 import path from 'path';
 
 // ═══════════════════════════════════════════════════════════════
@@ -7,28 +7,28 @@ import path from 'path';
 // ═══════════════════════════════════════════════════════════════
 const DATA = {
   // Credentials
-  username: 'qa.claim.admin',
-  password: process.env.PASSWORD2 || '',
+  username: process.env.USERNAME_ADMIN_KLAIM || '',
+  password: process.env.PASSWORD1 || '',
 
   // Peserta
-  nomorPeserta: '1001736793293',
+  nomorPeserta: '1001736793293', // Masukkan NOKA📌
   phone: '089662284227',
-  email: 'indra.kurniawan@inhealth.co.id',
+  email: 'syaiful.gauci@inhealth.co.id',
 
   // Tanggal Receive Date & Admission Date
   receiveDate: new Date().toISOString().split('T')[0], // default: hari ini
-  admissionDate: '2026-07-25', // Tanggal Pelayanan /INDATE
+  admissionDate: '2026-07-29', // Tanggal Pelayanan /INDATE//📌
   // Klaim
-  icd10Code: 'A00.0',
+  icd10Code: 'Z00.0', //📌
   providerName: 'KLINIK KASIH IBU DENPASAR',
   doctorName: 'dokter klaim',
-  claimSubBenefit: '55000',
+  claimSubBenefit: '75000', //📌
   remark: 'Tester-PW-SGC',
-  benefitType: 'RJTL - Rawat Jalan Tingkat Lanjut',
-  planName: 'Rawat Inap',  // Nama plan yang dipilih di View Plan📌
+  benefitType: 'RJTL - Rawat Jalan Tingkat Lanjut', //📌
+  planName: 'Rawat Jalan',  // Nama plan yang dipilih di View Plan📌
 
   // Upload — taruh file di folder tests/fixtures/
-  uploadFile: path.join(__dirname, '..', 'fixtures', 'DummyPDF.pdf'),
+  uploadFile: path.join(__dirname, '..', '..', 'fixtures', 'DummyPDF.pdf'),
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -96,7 +96,14 @@ test.describe('Klaim Reimbursement Reguler', () => {
 
     // ── Upload Document ──
     await page.getByLabel('Choose File').first().setInputFiles(DATA.uploadFile);
-    await page.getByRole('button', { name: 'Save', exact: true }).click();
+
+    // Tunggu button Save menjadi enabled setelah upload
+    const saveBtn = page.getByRole('button', { name: 'Save', exact: true });
+    await saveBtn.waitFor({ state: 'visible', timeout: 15000 });
+    
+    // Tunggu sampai button enabled (tidak disabled)
+    await expect(saveBtn).toBeEnabled({ timeout: 30000 });
+    await saveBtn.click();
 
     // ── Submit ──
     // await page.getByRole('button', { name: 'Submit' }).click();
